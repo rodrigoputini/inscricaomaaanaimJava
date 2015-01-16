@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel>
+<database name="new_database" encoding="UTF8">
+</database>
+
+<table name="tb_alojamento" oids="false">
+	<schema name="public"/>
+	<position x="29.0909" y="39.0909"/>
+	<column name="codalojamento" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+		<comment>codigo do alojamento auto incrementado</comment>
+	</column>
+	<column name="descalojamento">
+		<type name="varchar" spatial-type="POINT" variation="0"/>
+		<comment>nome do alojamento</comment>
+	</column>
+	<column name="codlocalevento">
+		<type name="smallint" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codusuario">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+		<comment>codigo do usuario responsavel pelo registro</comment>
+	</column>
+	<column name="dtcadastro">
+		<type name="date" spatial-type="POINT" variation="0"/>
+		<comment>data de cadastro do registro de alojamento</comment>
+	</column>
+	<constraint name="pk_alojamento" type="pk-constr" factor="10" table="public.tb_alojamento">
+		<columns names="codalojamento" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_area" oids="false">
+	<schema name="public"/>
+	<position x="295.455" y="41.8182"/>
+	<column name="codarea" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+		<comment>codigo auto incrementado</comment>
+	</column>
+	<column name="descarea" not-null="true" default-value="nome da area">
+		<type name="varchar" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="dtcadastro" not-null="true">
+		<type name="date" spatial-type="POINT" variation="0"/>
+		<comment>Data de cadastro do registro de area</comment>
+	</column>
+	<column name="status" not-null="true">
+		<type name="boolean" spatial-type="POINT" variation="0"/>
+		<comment>define se área esta ativa no sistema</comment>
+	</column>
+	<column name="codregiao">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+		<comment>codigo da regiao</comment>
+	</column>
+	<column name="codmembro">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+		<comment>codigo do membro</comment>
+	</column>
+	<column name="codusuario">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+		<comment>codigo de usuario</comment>
+	</column>
+	<column name="codmembro_sec">
+		<type name="macaddr" spatial-type="POINT" variation="0"/>
+		<comment>codigo do membro de secretaria</comment>
+	</column>
+	<constraint name="pk_area" type="pk-constr" factor="10" table="public.tb_area">
+		<columns names="codarea" ref-type="src-columns"/>
+		<comment>chave primaria de area</comment>
+	</constraint>
+</table>
+
+<table name="tb_bairro" oids="false">
+	<schema name="public"/>
+	<comment>tabela com registro de bairros</comment>
+	<position x="24.5455" y="550"/>
+	<column name="codbairro" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+		<comment>codigo de bairro auto incrementavel</comment>
+	</column>
+	<column name="descbairro">
+		<type name="varchar" spatial-type="POINT" variation="0"/>
+		<comment>nome do bairro</comment>
+	</column>
+	<column name="codcidade">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+		<comment>codigo da cidade</comment>
+	</column>
+	<column name="codusuario">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+		<comment>codigo do usuario responsavel pelo registro de bairro</comment>
+	</column>
+	<column name="dtcadastro">
+		<type name="date" spatial-type="POINT" variation="0"/>
+		<comment>data de cadastro do registro de bairro</comment>
+	</column>
+	<constraint name="pkbairro" type="pk-constr" factor="10" table="public.tb_bairro">
+		<columns names="codbairro" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+</dbmodel>
