@@ -9,98 +9,624 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="tb_alojamento" oids="false">
 	<schema name="public"/>
-	<position x="29.0909" y="39.0909"/>
+	<position x="1632.34" y="294.091"/>
 	<column name="codalojamento" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 		<comment>codigo do alojamento auto incrementado</comment>
 	</column>
-	<column name="descalojamento">
+	<column name="descalojamento" not-null="true">
 		<type name="varchar" spatial-type="POINT" variation="0"/>
 		<comment>nome do alojamento</comment>
 	</column>
-	<column name="codlocalevento">
-		<type name="smallint" spatial-type="POINT" variation="0"/>
-	</column>
-	<column name="codusuario">
+	<column name="vagas" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
-		<comment>codigo do usuario responsavel pelo registro</comment>
-	</column>
-	<column name="dtcadastro">
-		<type name="date" spatial-type="POINT" variation="0"/>
-		<comment>data de cadastro do registro de alojamento</comment>
 	</column>
 	<constraint name="pk_alojamento" type="pk-constr" factor="10" table="public.tb_alojamento">
 		<columns names="codalojamento" ref-type="src-columns"/>
 	</constraint>
 </table>
 
-<table name="tb_area" oids="false">
+<table name="tb_categoriainscricao" oids="false">
 	<schema name="public"/>
-	<position x="295.455" y="41.8182"/>
-	<column name="codarea" not-null="true">
+	<position x="1600.25" y="599.75"/>
+	<column name="codcatinscricao" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
-		<comment>codigo auto incrementado</comment>
 	</column>
-	<column name="descarea" not-null="true" default-value="nome da area">
+	<column name="desccatinscricao" not-null="true">
 		<type name="varchar" spatial-type="POINT" variation="0"/>
 	</column>
-	<column name="dtcadastro" not-null="true">
-		<type name="date" spatial-type="POINT" variation="0"/>
-		<comment>Data de cadastro do registro de area</comment>
-	</column>
-	<column name="status" not-null="true">
-		<type name="boolean" spatial-type="POINT" variation="0"/>
-		<comment>define se área esta ativa no sistema</comment>
-	</column>
-	<column name="codregiao">
-		<type name="numeric" spatial-type="POINT" variation="0"/>
-		<comment>codigo da regiao</comment>
-	</column>
-	<column name="codmembro">
-		<type name="numeric" spatial-type="POINT" variation="0"/>
-		<comment>codigo do membro</comment>
-	</column>
-	<column name="codusuario">
-		<type name="numeric" spatial-type="POINT" variation="0"/>
-		<comment>codigo de usuario</comment>
-	</column>
-	<column name="codmembro_sec">
-		<type name="macaddr" spatial-type="POINT" variation="0"/>
-		<comment>codigo do membro de secretaria</comment>
-	</column>
-	<constraint name="pk_area" type="pk-constr" factor="10" table="public.tb_area">
-		<columns names="codarea" ref-type="src-columns"/>
-		<comment>chave primaria de area</comment>
+	<constraint name="pk_categoriainscricao" type="pk-constr" factor="10" table="public.tb_categoriainscricao">
+		<columns names="codcatinscricao" ref-type="src-columns"/>
 	</constraint>
 </table>
 
-<table name="tb_bairro" oids="false">
+<table name="tb_evento" oids="false">
 	<schema name="public"/>
-	<comment>tabela com registro de bairros</comment>
-	<position x="24.5455" y="550"/>
-	<column name="codbairro" not-null="true">
+	<comment>Registros de evento</comment>
+	<position x="1015" y="11"/>
+	<column name="codevento" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
-		<comment>codigo de bairro auto incrementavel</comment>
+		<comment>chave da tabela evento</comment>
 	</column>
-	<column name="descbairro">
+	<column name="descevento" not-null="true">
+		<type name="varchar" length="30" spatial-type="POINT" variation="0"/>
+		<comment>Nome do evento</comment>
+	</column>
+	<column name="videoconferencia" not-null="true">
+		<type name="boolean" spatial-type="POINT" variation="0"/>
+		<comment>se o evento é local ou videoconferencia </comment>
+	</column>
+	<column name="localevento" not-null="true">
 		<type name="varchar" spatial-type="POINT" variation="0"/>
-		<comment>nome do bairro</comment>
+		<comment>nome do local</comment>
 	</column>
-	<column name="codcidade">
-		<type name="numeric" spatial-type="POINT" variation="0"/>
-		<comment>codigo da cidade</comment>
-	</column>
-	<column name="codusuario">
-		<type name="numeric" spatial-type="POINT" variation="0"/>
-		<comment>codigo do usuario responsavel pelo registro de bairro</comment>
-	</column>
-	<column name="dtcadastro">
+	<column name="dtinicial" not-null="true">
 		<type name="date" spatial-type="POINT" variation="0"/>
-		<comment>data de cadastro do registro de bairro</comment>
 	</column>
-	<constraint name="pkbairro" type="pk-constr" factor="10" table="public.tb_bairro">
-		<columns names="codbairro" ref-type="src-columns"/>
+	<column name="dtfinal" not-null="true">
+		<type name="date" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="dtinicialinsc" not-null="true">
+		<type name="date" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="dtfinalinsc" not-null="true">
+		<type name="date" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="dtinicialinscvolunt" not-null="true">
+		<type name="date" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="dtfinalinscvolunt" not-null="true">
+		<type name="date" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="vagasmasculino" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="numvagasfeminino" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="valorinscricao" not-null="true">
+		<type name="numeric" length="3" precision="2" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="status" not-null="true">
+		<type name="boolean" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="dtfinalsubs" not-null="true">
+		<type name="date" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codusuario" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="coordenadaslocal">
+		<type name="varchar" spatial-type="POINT" variation="0"/>
+		<comment>longitude e latitude obtidas no google maps</comment>
+	</column>
+	<constraint name="pk_evento" type="pk-constr" factor="10" table="public.tb_evento">
+		<columns names="codevento" ref-type="src-columns"/>
+	</constraint>
+	<index name="idx_evento_nome" table="public.tb_evento"
+		 concurrent="true" unique="false" fast-update="false"
+		 index-type="btree" factor="10">
+	<idxelement nulls-first="false" asc-order="false">
+		<column name="descevento"/>
+	</idxelement>
+	<idxelement nulls-first="false" asc-order="false">
+		<column name="dtinicial"/>
+	</idxelement>
+	</index>
+</table>
+
+<table name="evento_alojamento" oids="false">
+	<schema name="public"/>
+	<position x="1607.25" y="100.75"/>
+	<column name="codevento" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codalojamento" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="sexo" not-null="true">
+		<type name="varchar" length="3" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_evento_alojamento" type="pk-constr" factor="10" table="public.evento_alojamento">
+		<columns names="codevento,codalojamento" ref-type="src-columns"/>
 	</constraint>
 </table>
+
+<constraint name="fk_evento" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_evento" table="public.evento_alojamento">
+	<columns names="codevento" ref-type="src-columns"/>
+	<columns names="codevento" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_evento_alojamento_tb_evento"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.evento_alojamento"
+	 dst-table="public.tb_evento"/>
+
+<constraint name="fk_alojamento" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_alojamento" table="public.evento_alojamento">
+	<columns names="codalojamento" ref-type="src-columns"/>
+	<columns names="codalojamento" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_evento_alojamento_tb_alojamento"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.evento_alojamento"
+	 dst-table="public.tb_alojamento"/>
+
+<table name="tb_endereco" oids="false">
+	<schema name="public"/>
+	<position x="613.5" y="517"/>
+	<column name="codendereco" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="logradouro" not-null="true">
+		<type name="varchar" length="150" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="complemento">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="cep" not-null="true">
+		<type name="varchar" length="8" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="bairro" not-null="true">
+		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="cidade" not-null="true">
+		<type name="varchar" length="201" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="estado" not-null="true">
+		<type name="varchar" length="2" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="pais" not-null="true">
+		<type name="varbit" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_endereco" type="pk-constr" factor="10" table="public.tb_endereco">
+		<columns names="codendereco" ref-type="src-columns"/>
+	</constraint>
+	<index name="idx_endereco" table="public.tb_endereco"
+		 concurrent="false" unique="false" fast-update="false"
+		 index-type="btree" factor="10">
+	<idxelement nulls-first="false" asc-order="false">
+		<column name="cep"/>
+	</idxelement>
+	</index>
+</table>
+
+<table name="tb_equipe" oids="false">
+	<schema name="public"/>
+	<position x="1610.5" y="442.5"/>
+	<column name="codequipe" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="descequipe" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_equipe" type="pk-constr" factor="10" table="public.tb_equipe">
+		<columns names="codequipe" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_igreja" oids="true">
+	<schema name="public"/>
+	<position x="1031.06" y="709.824"/>
+	<column name="codigreja" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codpresbiterio" not-null="true">
+		<type name="varchar" length="10" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="nomeigreja" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codpolo" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="pastor" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codendereco" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_igreja" type="pk-constr" factor="10" table="public.tb_igreja">
+		<columns names="codigreja" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_pessoa" oids="false">
+	<schema name="public"/>
+	<position x="17.75" y="37.75"/>
+	<column name="codpessoa" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="nome" not-null="true">
+		<type name="varchar" length="150" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="sexo" not-null="true">
+		<type name="varchar" length="3" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="estadocivil" not-null="true">
+		<type name="varchar" length="20" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="datanascimento" not-null="true">
+		<type name="date" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="tiposangue" not-null="true">
+		<type name="varchar" length="3" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="doadorsangue" not-null="true">
+		<type name="boolean" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="identidade">
+		<type name="varchar" length="20" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="rgorgaoexpedidor">
+		<type name="varchar" length="10" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="rgdataexpedicao">
+		<type name="date" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="email">
+		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="cpf" not-null="true">
+		<type name="varchar" length="11" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="pne" not-null="true">
+		<type name="boolean" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="tipopne">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="observacoes">
+		<type name="varchar" length="300" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="docinternacional">
+		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="celular">
+		<type name="varchar" length="15" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="telefone">
+		<type name="varchar" length="15" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="telcomercial">
+		<type name="varchar" length="15" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_pessoa" type="pk-constr" factor="10" table="public.tb_pessoa">
+		<columns names="codpessoa" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uk_cpf" type="uq-constr" factor="10" table="public.tb_pessoa">
+		<columns names="cpf" ref-type="src-columns"/>
+	</constraint>
+	<index name="idx_pessoa" table="public.tb_pessoa"
+		 concurrent="false" unique="false" fast-update="false"
+		 index-type="btree" factor="10">
+	<idxelement nulls-first="false" asc-order="false">
+		<column name="cpf"/>
+	</idxelement>
+	<idxelement nulls-first="false" asc-order="false">
+		<column name="nome"/>
+	</idxelement>
+	</index>
+</table>
+
+<table name="tb_polo" oids="false">
+	<schema name="public"/>
+	<position x="1440.35" y="723.176"/>
+	<column name="codpolo" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="descpolo">
+		<type name="smallint" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="responsavel" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codarea" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_polo" type="pk-constr" factor="10" table="public.tb_polo">
+		<columns names="codpolo" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="fk_polo" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_polo" table="public.tb_igreja">
+	<columns names="codpolo" ref-type="src-columns"/>
+	<columns names="codpolo" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_igreja_tb_polo"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_igreja"
+	 dst-table="public.tb_polo"/>
+
+<table name="tb_area" oids="false">
+	<schema name="public"/>
+	<position x="1436.5" y="913.279"/>
+	<column name="codarea" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="descarea" not-null="true">
+		<type name="varchar" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="regiao" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_area" type="pk-constr" factor="10" table="public.tb_area">
+		<columns names="codarea" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="fk_area" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_area" table="public.tb_polo">
+	<columns names="codarea" ref-type="src-columns"/>
+	<columns names="codarea" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_polo_tb_area"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_polo"
+	 dst-table="public.tb_area"/>
+
+<table name="tb_profissao" oids="false">
+	<schema name="public"/>
+	<position x="14.25" y="398"/>
+	<column name="codprofissao" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="descprofissao">
+		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_profissao" type="pk-constr" factor="10" table="public.tb_profissao">
+		<columns names="codprofissao" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_categoriamembro" oids="false">
+	<schema name="public"/>
+	<position x="12.5" y="485"/>
+	<column name="codcategoriamembro" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="desccategoriamembro">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_categoriamembro" type="pk-constr" factor="10" table="public.tb_categoriamembro">
+		<columns names="codcategoriamembro" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_membro" oids="true">
+	<schema name="public"/>
+	<position x="588" y="59.75"/>
+	<column name="codmembro" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codpessoa" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codprofissao">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codcategoriamembro" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codendereco" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codigreja" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_membro" type="pk-constr" factor="10" table="public.tb_membro">
+		<columns names="codmembro,codpessoa,codcategoriamembro,codendereco,codigreja" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uk_pessoa" type="uq-constr" factor="10" table="public.tb_membro">
+		<columns names="codpessoa" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_funcao" oids="false">
+	<schema name="public"/>
+	<position x="14.75" y="596"/>
+	<column name="codfuncao" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="descfuncao" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_funcao" type="pk-constr" factor="10" table="public.tb_funcao">
+		<columns names="codfuncao" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="fk_pessoa" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_pessoa" table="public.tb_membro">
+	<columns names="codpessoa" ref-type="src-columns"/>
+	<columns names="codpessoa" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_membro_tb_pessoa"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_membro"
+	 dst-table="public.tb_pessoa"/>
+
+<constraint name="fk_profissao" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_profissao" table="public.tb_membro">
+	<columns names="codprofissao" ref-type="src-columns"/>
+	<columns names="codprofissao" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_membro_tb_profissao"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_membro"
+	 dst-table="public.tb_profissao"/>
+
+<constraint name="fk_endereco" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_endereco" table="public.tb_membro">
+	<columns names="codendereco" ref-type="src-columns"/>
+	<columns names="codendereco" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_membro_tb_endereco"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_membro"
+	 dst-table="public.tb_endereco"/>
+
+<constraint name="fk_categoriamembro" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_categoriamembro" table="public.tb_membro">
+	<columns names="codcategoriamembro" ref-type="src-columns"/>
+	<columns names="codcategoriamembro" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_membro_tb_categoriamembro"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_membro"
+	 dst-table="public.tb_categoriamembro"/>
+
+<table name="tb_membrofuncao" oids="false">
+	<schema name="public"/>
+	<position x="428.25" y="404.75"/>
+	<column name="codmembro" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codfuncao" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_membrofuncao" type="pk-constr" factor="10" table="public.tb_membrofuncao">
+		<columns names="codmembro,codfuncao" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="fk_membro" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_membro" table="public.tb_membrofuncao">
+	<columns names="codmembro" ref-type="src-columns"/>
+	<columns names="codmembro" ref-type="dst-columns"/>
+</constraint>
+<constraint name="fk_funcao" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_funcao" table="public.tb_membrofuncao">
+	<columns names="codfuncao" ref-type="src-columns"/>
+	<columns names="codfuncao" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_membrofuncao_tb_membro"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_membrofuncao"
+	 dst-table="public.tb_membro"/>
+
+<relationship name="rel_tb_membrofuncao_tb_funcao"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_membrofuncao"
+	 dst-table="public.tb_funcao"/>
+
+<constraint name="fk_igreja" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_igreja" table="public.tb_membro">
+	<columns names="codigreja" ref-type="src-columns"/>
+	<columns names="codigreja" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_membro_tb_igreja"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_membro"
+	 dst-table="public.tb_igreja"/>
+
+<table name="tb_inscricao" oids="false">
+	<schema name="public"/>
+	<position x="1046.75" y="384.75"/>
+	<column name="codmembro" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codevento" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="pagamento" not-null="true">
+		<type name="boolean" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="status" not-null="true">
+		<type name="varchar" length="31" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codcatinscricao" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="codequipe">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="inscritor" not-null="true">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="datainscricao" not-null="true">
+		<type name="date" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_inscricao" type="pk-constr" factor="10" table="public.tb_inscricao">
+		<columns names="codmembro,codevento" ref-type="src-columns"/>
+	</constraint>
+	<index name="idx_inscricao" table="public.tb_inscricao"
+		 concurrent="false" unique="false" fast-update="false"
+		 index-type="btree" factor="10">
+	<idxelement nulls-first="false" asc-order="false">
+		<column name="inscritor"/>
+	</idxelement>
+	<idxelement nulls-first="false" asc-order="false">
+		<column name="datainscricao"/>
+	</idxelement>
+	</index>
+</table>
+
+<constraint name="fk_membro" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_membro" table="public.tb_inscricao">
+	<columns names="codmembro" ref-type="src-columns"/>
+	<columns names="codmembro" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_inscricao_tb_membro"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_inscricao"
+	 dst-table="public.tb_membro"/>
+
+<constraint name="fk_evento" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_evento" table="public.tb_inscricao">
+	<columns names="codevento" ref-type="src-columns"/>
+	<columns names="codevento" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_inscricao_tb_evento"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_inscricao"
+	 dst-table="public.tb_evento"/>
+
+<constraint name="fk_catinscricao" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_categoriainscricao" table="public.tb_inscricao">
+	<columns names="codcatinscricao" ref-type="src-columns"/>
+	<columns names="codcatinscricao" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_inscricao_tb_categoriainscricao"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_inscricao"
+	 dst-table="public.tb_categoriainscricao"/>
+
+<constraint name="fk_equipe" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_equipe" table="public.tb_inscricao">
+	<columns names="codequipe" ref-type="src-columns"/>
+	<columns names="codequipe" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_inscricao_tb_equipe"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_inscricao"
+	 dst-table="public.tb_equipe"/>
+
+<constraint name="fk_endereco" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_endereco" table="public.tb_igreja">
+	<columns names="codendereco" ref-type="src-columns"/>
+	<columns names="codendereco" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_tb_igreja_tb_endereco"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.tb_igreja"
+	 dst-table="public.tb_endereco"/>
 
 </dbmodel>
