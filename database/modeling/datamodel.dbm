@@ -233,7 +233,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="tb_pessoa" oids="false">
+<table name="tb_pessoa" oids="true">
 	<schema name="public"/>
 	<position x="17.75" y="37.75"/>
 	<column name="codpessoa" not-null="true">
@@ -241,6 +241,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="nome" not-null="true">
 		<type name="varchar" length="150" spatial-type="POINT" variation="0"/>
+		<comment>nome da pessoa</comment>
 	</column>
 	<column name="sexo" not-null="true">
 		<type name="varchar" length="3" spatial-type="POINT" variation="0"/>
