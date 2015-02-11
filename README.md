@@ -4,26 +4,19 @@ This README would normally document whatever steps are necessary to get your app
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+This repository refer to MaanaimRegister project of the ICM Curitiba Church
 
 ### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+Java
+Postgres 9.4
+Angular JS
+Netbeans 8
+Git version control
 
 ### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+Rodrigo C Putini
+rodrigo.putini@gmail.com
