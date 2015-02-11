@@ -4,7 +4,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
 <dbmodel>
-<database name="new_database" encoding="UTF8">
+<database name="icmcurbr" encoding="UTF8">
 </database>
 
 <table name="tb_alojamento" oids="false">
@@ -115,7 +115,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</index>
 </table>
 
-<table name="evento_alojamento" oids="false">
+<table name="tb_evento_alojamento" oids="false">
 	<schema name="public"/>
 	<position x="1607.25" y="100.75"/>
 	<column name="codevento" not-null="true">
@@ -127,34 +127,34 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="sexo" not-null="true">
 		<type name="varchar" length="3" spatial-type="POINT" variation="0"/>
 	</column>
-	<constraint name="pk_evento_alojamento" type="pk-constr" factor="10" table="public.evento_alojamento">
+	<constraint name="pk_evento_alojamento" type="pk-constr" factor="10" table="public.tb_evento_alojamento">
 		<columns names="codevento,codalojamento" ref-type="src-columns"/>
 	</constraint>
 </table>
 
 <constraint name="fk_evento" type="fk-constr"	 comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_evento" table="public.evento_alojamento">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_evento" table="public.tb_evento_alojamento">
 	<columns names="codevento" ref-type="src-columns"/>
 	<columns names="codevento" ref-type="dst-columns"/>
 </constraint>
-<relationship name="rel_evento_alojamento_tb_evento"
+<relationship name="rel_tb_evento_alojamento_tb_evento"
 	 type="relfk"
 	 src-required="false" dst-required="false"
-	 src-table="public.evento_alojamento"
+	 src-table="public.tb_evento_alojamento"
 	 dst-table="public.tb_evento"/>
 
 <constraint name="fk_alojamento" type="fk-constr"	 comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_alojamento" table="public.evento_alojamento">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.tb_alojamento" table="public.tb_evento_alojamento">
 	<columns names="codalojamento" ref-type="src-columns"/>
 	<columns names="codalojamento" ref-type="dst-columns"/>
 </constraint>
-<relationship name="rel_evento_alojamento_tb_alojamento"
+<relationship name="rel_tb_evento_alojamento_tb_alojamento"
 	 type="relfk"
 	 src-required="false" dst-required="false"
-	 src-table="public.evento_alojamento"
+	 src-table="public.tb_evento_alojamento"
 	 dst-table="public.tb_alojamento"/>
 
-<table name="tb_endereco" oids="false">
+<table name="tb_endereco" oids="true">
 	<schema name="public"/>
 	<position x="613.5" y="517"/>
 	<column name="codendereco" not-null="true">
@@ -162,9 +162,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="logradouro" not-null="true">
 		<type name="varchar" length="150" spatial-type="POINT" variation="0"/>
-	</column>
-	<column name="complemento">
-		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
 	</column>
 	<column name="cep" not-null="true">
 		<type name="varchar" length="8" spatial-type="POINT" variation="0"/>
@@ -183,6 +180,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<constraint name="pk_endereco" type="pk-constr" factor="10" table="public.tb_endereco">
 		<columns names="codendereco" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uk_cep" type="uq-constr" factor="10" table="public.tb_endereco">
+		<columns names="cep" ref-type="src-columns"/>
 	</constraint>
 	<index name="idx_endereco" table="public.tb_endereco"
 		 concurrent="false" unique="false" fast-update="false"
@@ -207,7 +207,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="tb_igreja" oids="true">
+<table name="tb_igreja" oids="false">
 	<schema name="public"/>
 	<position x="1031.06" y="709.824"/>
 	<column name="codigreja" not-null="true">
@@ -228,6 +228,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="codendereco" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
+	<column name="complemento">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
 	<constraint name="pk_igreja" type="pk-constr" factor="10" table="public.tb_igreja">
 		<columns names="codigreja" ref-type="src-columns"/>
 	</constraint>
@@ -235,9 +238,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="tb_pessoa" oids="true">
 	<schema name="public"/>
-	<position x="17.75" y="37.75"/>
+	<position x="18.75" y="36.75"/>
 	<column name="codpessoa" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
+		<comment>chave de registro</comment>
 	</column>
 	<column name="nome" not-null="true">
 		<type name="varchar" length="150" spatial-type="POINT" variation="0"/>
@@ -245,54 +249,76 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="sexo" not-null="true">
 		<type name="varchar" length="3" spatial-type="POINT" variation="0"/>
+		<comment>mas de masculino ou fem de feminino</comment>
 	</column>
 	<column name="estadocivil" not-null="true">
 		<type name="varchar" length="20" spatial-type="POINT" variation="0"/>
+		<comment>estado civil da pessoa</comment>
 	</column>
 	<column name="datanascimento" not-null="true">
 		<type name="date" spatial-type="POINT" variation="0"/>
+		<comment>data de nascimento da pessoa</comment>
 	</column>
 	<column name="tiposangue" not-null="true">
 		<type name="varchar" length="3" spatial-type="POINT" variation="0"/>
+		<comment>tipo sanguineo e fator Rhesus</comment>
 	</column>
 	<column name="doadorsangue" not-null="true">
 		<type name="boolean" spatial-type="POINT" variation="0"/>
+		<comment>se doador sim senão nao</comment>
 	</column>
 	<column name="identidade">
 		<type name="varchar" length="20" spatial-type="POINT" variation="0"/>
+		<comment>registro geral para brasileiros ou passaporte para outros paises</comment>
 	</column>
 	<column name="rgorgaoexpedidor">
-		<type name="varchar" length="10" spatial-type="POINT" variation="0"/>
+		<type name="varchar" length="30" spatial-type="POINT" variation="0"/>
+		<comment>orgao expedidor do rg para brasileiros ou nome do pais</comment>
 	</column>
 	<column name="rgdataexpedicao">
 		<type name="date" spatial-type="POINT" variation="0"/>
+		<comment>data da expedição do rg ou do passaporte</comment>
 	</column>
 	<column name="email">
 		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+		<comment>email pessoal de contato</comment>
 	</column>
 	<column name="cpf" not-null="true">
 		<type name="varchar" length="11" spatial-type="POINT" variation="0"/>
+		<comment>cadastro de pessoa fisica, </comment>
 	</column>
 	<column name="pne" not-null="true">
 		<type name="boolean" spatial-type="POINT" variation="0"/>
+		<comment>portador de necessidades especiais</comment>
 	</column>
 	<column name="tipopne">
 		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+		<comment>tipo da necessidade especial</comment>
 	</column>
 	<column name="observacoes">
 		<type name="varchar" length="300" spatial-type="POINT" variation="0"/>
 	</column>
 	<column name="docinternacional">
 		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+		<comment>numero de passaporte ou outro documento </comment>
 	</column>
 	<column name="celular">
 		<type name="varchar" length="15" spatial-type="POINT" variation="0"/>
+		<comment>nr de telefone movel</comment>
 	</column>
 	<column name="telefone">
 		<type name="varchar" length="15" spatial-type="POINT" variation="0"/>
+		<comment>nr telefone residencial fixo</comment>
 	</column>
 	<column name="telcomercial">
 		<type name="varchar" length="15" spatial-type="POINT" variation="0"/>
+		<comment>telefone comercial</comment>
+	</column>
+	<column name="complemento">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="numerorua">
+		<type name="varchar" length="20" spatial-type="POINT" variation="0"/>
 	</column>
 	<constraint name="pk_pessoa" type="pk-constr" factor="10" table="public.tb_pessoa">
 		<columns names="codpessoa" ref-type="src-columns"/>
@@ -373,7 +399,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="tb_profissao" oids="false">
 	<schema name="public"/>
-	<position x="14.25" y="398"/>
+	<position x="14.25" y="382"/>
 	<column name="codprofissao" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
@@ -399,9 +425,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="tb_membro" oids="true">
+<table name="tb_membro" oids="false">
 	<schema name="public"/>
-	<position x="588" y="59.75"/>
+	<position x="587" y="58.75"/>
 	<column name="codmembro" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
@@ -421,7 +447,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
 	<constraint name="pk_membro" type="pk-constr" factor="10" table="public.tb_membro">
-		<columns names="codmembro,codpessoa,codcategoriamembro,codendereco,codigreja" ref-type="src-columns"/>
+		<columns names="codmembro" ref-type="src-columns"/>
 	</constraint>
 	<constraint name="uk_pessoa" type="uq-constr" factor="10" table="public.tb_membro">
 		<columns names="codpessoa" ref-type="src-columns"/>
@@ -430,7 +456,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="tb_funcao" oids="false">
 	<schema name="public"/>
-	<position x="14.75" y="596"/>
+	<position x="36.75" y="602"/>
 	<column name="codfuncao" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
@@ -629,5 +655,96 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-required="false" dst-required="false"
 	 src-table="public.tb_igreja"
 	 dst-table="public.tb_endereco"/>
+
+<sequence name="seq_tb_pessoa"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="seq_tb_profissao"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="seq_tb_categoriamembro"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="seq_tb_funcao"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="seq_tb_membro"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="seq_tb_endereco"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="seq_tb_evento"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="seq_tb_alojamento"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="seq_tb_equipe"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="seq_tb_categoriainscricao"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="seq_tb_igreja"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="seq_tb_polo"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
+
+<sequence name="seq_tb_area"
+	 start="1" increment="1"
+	 min-value="0" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+</sequence>
 
 </dbmodel>
