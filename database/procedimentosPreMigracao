@@ -1,0 +1,18 @@
+select dataemissao_ident 
+from tb_membro 
+where tb_membro.cpfproprio = 'S'
+and tb_membro.dataemissao_ident = '0000-00-00'
+
+---
+
+update tb_membro
+set tb_membro.dataemissao_ident = '1950-01-01'
+where tb_membro.dataemissao_ident = '0000-00-00'
+
+update tb_membro
+set tb_membro.datanascimento = '1950-01-01'
+where tb_membro.datanascimento = '0000-00-00'
+
+select cep, descmembro from tb_membro 
+
+
