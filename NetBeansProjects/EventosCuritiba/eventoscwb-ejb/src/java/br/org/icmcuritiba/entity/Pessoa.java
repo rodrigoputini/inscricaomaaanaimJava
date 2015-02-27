@@ -137,8 +137,8 @@ public class Pessoa implements Serializable {
     @Size(max = 20)
     @Column(name = "numerorua")
     private String numerorua;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "codpessoa", fetch = FetchType.LAZY)
-    private Membro membro;
+    //@OneToOne(cascade = CascadeType.ALL, mappedBy = "codpessoa", fetch = FetchType.EAGER)
+    //private Membro membro;
 
     public Pessoa() {
     }
@@ -327,13 +327,13 @@ public class Pessoa implements Serializable {
         this.numerorua = numerorua;
     }
 
-    public Membro getMembro() {
+    /*public Membro getMembro() {
         return membro;
     }
 
     public void setMembro(Membro membro) {
         this.membro = membro;
-    }
+    }*/
 
     @Override
     public int hashCode() {

@@ -6,12 +6,8 @@
 package br.org.icmcuritiba.ws.rest;
 
 import br.org.icmcuritiba.entity.Pessoa;
-import br.org.icmcuritiba.facade.PessoaFacade;
 import br.org.icmcuritiba.interfaces.PessoaRemote;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.enterprise.inject.Any;
-import javax.inject.Inject;
 import javax.naming.InitialContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -34,6 +30,7 @@ public class PessoaWS {
         return pessoaEjb.getAllPessoas();
         
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
 
