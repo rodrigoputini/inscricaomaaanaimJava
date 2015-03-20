@@ -7,13 +7,11 @@ package br.org.icmcuritiba.facade;
 
 import br.org.icmcuritiba.entity.Pessoa;
 import br.org.icmcuritiba.interfaces.PessoaRemote;
+import br.org.icmcuritiba.to.PessoaTO;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -24,8 +22,6 @@ import javax.persistence.Query;
  */
 
 @Stateless
-@Dependent
-@Named
 public class PessoaFacade extends AbstractFacade<Pessoa> implements PessoaRemote{
     @PersistenceContext(unitName = "eventoscwb-ejbPU")
     private EntityManager em;
@@ -50,7 +46,19 @@ public class PessoaFacade extends AbstractFacade<Pessoa> implements PessoaRemote
          } catch (Exception e) {
              e.printStackTrace();
         }
-        
+        return lstPessoa;
+    }
+
+    @Override
+    public List<Pessoa> getAllByCodIgreja(String codPresbiterio) {
+        List<Pessoa> lstPessoa = new ArrayList<Pessoa>();
+        try {
+            Query q = this.getEntityManager().createNamedQuery("Pessoa.findByCodIgreja");
+            q.setParameter("codPresbiterio", codPresbiterio);
+            lstPessoa = q.getResultList();
+        } catch (Exception e) {
+             e.printStackTrace();
+        }
         return lstPessoa;
     }
     

@@ -12,4 +12,5 @@ import br.org.icmcuritiba.entity.Pessoa;
 @Remote
 public interface PessoaRemote {
      public List<Pessoa> getAllPessoas();
+     public List<Pessoa> getAllByCodIgreja(String codIgreja);
 }

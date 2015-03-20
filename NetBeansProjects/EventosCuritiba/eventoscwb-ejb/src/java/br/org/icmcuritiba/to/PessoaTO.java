@@ -10,7 +10,7 @@ import br.org.icmcuritiba.entity.Pessoa;
 
 /**
  *
- * @author s016361
+ * @author Rodrigo Camargo Putini - rodrigo.putini@gmail.com
  */
 public class PessoaTO {
     

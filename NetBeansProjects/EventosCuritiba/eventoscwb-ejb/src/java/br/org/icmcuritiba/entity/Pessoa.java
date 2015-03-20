@@ -53,7 +53,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Pessoa.findByTelefone", query = "SELECT p FROM Pessoa p WHERE p.telefone = :telefone"),
     @NamedQuery(name = "Pessoa.findByTelcomercial", query = "SELECT p FROM Pessoa p WHERE p.telcomercial = :telcomercial"),
     @NamedQuery(name = "Pessoa.findByComplemento", query = "SELECT p FROM Pessoa p WHERE p.complemento = :complemento"),
-    @NamedQuery(name = "Pessoa.findByNumerorua", query = "SELECT p FROM Pessoa p WHERE p.numerorua = :numerorua")})
+    @NamedQuery(name = "Pessoa.findByNumerorua", query = "SELECT p FROM Pessoa p WHERE p.numerorua = :numerorua"),
+    @NamedQuery(name = "Pessoa.findByCodIgreja", query = "SELECT p FROM Pessoa p WHERE p.membro.codigreja.codpresbiterio = :codPresbiterio ORDER BY p.nome")
+})
 public class Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -137,8 +139,8 @@ public class Pessoa implements Serializable {
     @Size(max = 20)
     @Column(name = "numerorua")
     private String numerorua;
-    //@OneToOne(cascade = CascadeType.ALL, mappedBy = "codpessoa", fetch = FetchType.EAGER)
-    //private Membro membro;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "codpessoa", fetch = FetchType.EAGER)
+    private Membro membro;
 
     public Pessoa() {
     }
@@ -327,13 +329,13 @@ public class Pessoa implements Serializable {
         this.numerorua = numerorua;
     }
 
-    /*public Membro getMembro() {
+    public Membro getMembro() {
         return membro;
     }
 
     public void setMembro(Membro membro) {
         this.membro = membro;
-    }*/
+    }
 
     @Override
     public int hashCode() {
