@@ -6,8 +6,8 @@
 /* Database creation must be done outside an multicommand file.
    These commands were put in this file only for convenience.
 
--- object: icmcurbr | type: DATABASE -- 
-CREATE DATABASE icmcurbr
+-- object: new_database | type: DATABASE -- 
+CREATE DATABASE new_database
 	ENCODING = 'UTF8'
 ;
 
@@ -18,12 +18,16 @@ CREATE TABLE public.tb_alojamento(
 	codalojamento numeric NOT NULL,
 	descalojamento varchar NOT NULL,
 	vagas numeric NOT NULL,
+	codusuario numeric NOT NULL,
+	dtcadastro date NOT NULL,
 	CONSTRAINT pk_alojamento PRIMARY KEY (codalojamento)
 )
 WITH (OIDS=FALSE);
 
 COMMENT ON COLUMN public.tb_alojamento.codalojamento IS 'codigo do alojamento auto incrementado';
 COMMENT ON COLUMN public.tb_alojamento.descalojamento IS 'nome do alojamento';
+COMMENT ON COLUMN public.tb_alojamento.codusuario IS 'codigo do usuario responsavel pelo registro';
+COMMENT ON COLUMN public.tb_alojamento.dtcadastro IS 'data de cadastro do registro de alojamento';
 -- object: public.tb_categoriainscricao | type: TABLE -- 
 CREATE TABLE public.tb_categoriainscricao(
 	codcatinscricao numeric NOT NULL,
@@ -55,24 +59,19 @@ CREATE TABLE public.tb_evento(
 )
 WITH (OIDS=FALSE);
 
--- object: idx_evento_nome | type: INDEX -- 
-CREATE INDEX  CONCURRENTLY idx_evento_nome ON public.tb_evento
-	USING btree
-	(descevento DESC NULLS LAST,dtinicial DESC NULLS LAST)
-	WITH (FILLFACTOR = 10)
-;
-
 COMMENT ON TABLE public.tb_evento IS 'Registros de evento';
 COMMENT ON COLUMN public.tb_evento.codevento IS 'chave da tabela evento';
 COMMENT ON COLUMN public.tb_evento.descevento IS 'Nome do evento';
 COMMENT ON COLUMN public.tb_evento.videoconferencia IS 'se o evento é local ou videoconferencia ';
 COMMENT ON COLUMN public.tb_evento.localevento IS 'nome do local';
 COMMENT ON COLUMN public.tb_evento.coordenadaslocal IS 'longitude e latitude obtidas no google maps';
--- object: public.tb_evento_alojamento | type: TABLE -- 
-CREATE TABLE public.tb_evento_alojamento(
+-- object: public.evento_alojamento | type: TABLE -- 
+CREATE TABLE public.evento_alojamento(
 	codevento numeric NOT NULL,
 	codalojamento numeric NOT NULL,
-	sexo varchar(3) NOT NULL,
+	dtcadastro date NOT NULL,
+	codusuario numeric NOT NULL,
+	"MasFem" varchar(3) NOT NULL,
 	CONSTRAINT pk_evento_alojamento PRIMARY KEY (codevento,codalojamento)
 )
 WITH (OIDS=FALSE);
@@ -81,22 +80,15 @@ WITH (OIDS=FALSE);
 CREATE TABLE public.tb_endereco(
 	codendereco numeric NOT NULL,
 	logradouro varchar(150) NOT NULL,
+	complemento varchar(50),
 	cep varchar(8) NOT NULL,
 	bairro varchar(100) NOT NULL,
 	cidade varchar(201) NOT NULL,
 	estado varchar(2) NOT NULL,
-	pais varchar(50) NOT NULL,
-	CONSTRAINT pk_endereco PRIMARY KEY (codendereco),
-	CONSTRAINT uk_cep UNIQUE (cep)
+	pais varbit(50) NOT NULL,
+	CONSTRAINT pk_endereco PRIMARY KEY (codendereco)
 )
 WITH (OIDS=TRUE);
-
--- object: idx_endereco | type: INDEX -- 
-CREATE INDEX idx_endereco ON public.tb_endereco
-	USING btree
-	(cep DESC NULLS LAST)
-	WITH (FILLFACTOR = 10)
-;
 
 -- object: public.tb_equipe | type: TABLE -- 
 CREATE TABLE public.tb_equipe(
@@ -109,12 +101,10 @@ WITH (OIDS=FALSE);
 -- object: public.tb_igreja | type: TABLE -- 
 CREATE TABLE public.tb_igreja(
 	codigreja numeric NOT NULL,
-	codpresbiterio varchar(10),
+	codpresbiterio varchar(10) NOT NULL,
 	nomeigreja varchar(50) NOT NULL,
 	codpolo numeric NOT NULL,
-	codendereco numeric,
-	complemento varchar(50),
-	numerorua numeric,
+	pastor numeric NOT NULL,
 	CONSTRAINT pk_igreja PRIMARY KEY (codigreja)
 )
 WITH (OIDS=FALSE);
@@ -122,17 +112,16 @@ WITH (OIDS=FALSE);
 -- object: public.tb_pessoa | type: TABLE -- 
 CREATE TABLE public.tb_pessoa(
 	codpessoa numeric NOT NULL,
-	nome varchar(150) NOT NULL,
-	sexo varchar(3) NOT NULL,
+	cpf varchar(11) NOT NULL,
+	sexo varchar NOT NULL,
 	estadocivil varchar(20) NOT NULL,
 	datanascimento date NOT NULL,
 	tiposangue varchar(3) NOT NULL,
 	doadorsangue boolean NOT NULL,
 	identidade varchar(20),
-	rgorgaoexpedidor varchar(30),
+	rgorgaoexpedidor varchar(10),
 	rgdataexpedicao date,
 	email varchar(100),
-	cpf varchar(11) NOT NULL,
 	pne boolean NOT NULL,
 	tipopne varchar(50),
 	observacoes varchar(300),
@@ -140,38 +129,11 @@ CREATE TABLE public.tb_pessoa(
 	celular varchar(15),
 	telefone varchar(15),
 	telcomercial varchar(15),
-	complemento varchar(50),
-	numerorua varchar(20),
 	CONSTRAINT pk_pessoa PRIMARY KEY (codpessoa),
 	CONSTRAINT uk_cpf UNIQUE (cpf)
 )
-WITH (OIDS=TRUE);
+WITH (OIDS=FALSE);
 
--- object: idx_pessoa | type: INDEX -- 
-CREATE INDEX idx_pessoa ON public.tb_pessoa
-	USING btree
-	(cpf DESC NULLS LAST,nome DESC NULLS LAST)
-	WITH (FILLFACTOR = 10)
-;
-
-COMMENT ON COLUMN public.tb_pessoa.codpessoa IS 'chave de registro';
-COMMENT ON COLUMN public.tb_pessoa.nome IS 'nome da pessoa';
-COMMENT ON COLUMN public.tb_pessoa.sexo IS 'mas de masculino ou fem de feminino';
-COMMENT ON COLUMN public.tb_pessoa.estadocivil IS 'estado civil da pessoa';
-COMMENT ON COLUMN public.tb_pessoa.datanascimento IS 'data de nascimento da pessoa';
-COMMENT ON COLUMN public.tb_pessoa.tiposangue IS 'tipo sanguineo e fator Rhesus';
-COMMENT ON COLUMN public.tb_pessoa.doadorsangue IS 'se doador sim senão nao';
-COMMENT ON COLUMN public.tb_pessoa.identidade IS 'registro geral para brasileiros ou passaporte para outros paises';
-COMMENT ON COLUMN public.tb_pessoa.rgorgaoexpedidor IS 'orgao expedidor do rg para brasileiros ou nome do pais';
-COMMENT ON COLUMN public.tb_pessoa.rgdataexpedicao IS 'data da expedição do rg ou do passaporte';
-COMMENT ON COLUMN public.tb_pessoa.email IS 'email pessoal de contato';
-COMMENT ON COLUMN public.tb_pessoa.cpf IS 'cadastro de pessoa fisica, ';
-COMMENT ON COLUMN public.tb_pessoa.pne IS 'portador de necessidades especiais';
-COMMENT ON COLUMN public.tb_pessoa.tipopne IS 'tipo da necessidade especial';
-COMMENT ON COLUMN public.tb_pessoa.docinternacional IS 'numero de passaporte ou outro documento ';
-COMMENT ON COLUMN public.tb_pessoa.celular IS 'nr de telefone movel';
-COMMENT ON COLUMN public.tb_pessoa.telefone IS 'nr telefone residencial fixo';
-COMMENT ON COLUMN public.tb_pessoa.telcomercial IS 'telefone comercial';
 -- object: public.tb_polo | type: TABLE -- 
 CREATE TABLE public.tb_polo(
 	codpolo numeric NOT NULL,
@@ -214,11 +176,11 @@ CREATE TABLE public.tb_membro(
 	codprofissao numeric,
 	codcategoriamembro numeric NOT NULL,
 	codendereco numeric NOT NULL,
-	codigreja numeric,
-	CONSTRAINT pk_membro PRIMARY KEY (codmembro),
+	codigreja numeric NOT NULL,
+	CONSTRAINT pk_membro PRIMARY KEY (codmembro,codpessoa,codprofissao,codcategoriamembro,codendereco,codigreja),
 	CONSTRAINT uk_pessoa UNIQUE (codpessoa)
 )
-WITH (OIDS=TRUE);
+WITH (OIDS=FALSE);
 
 -- object: public.tb_funcao | type: TABLE -- 
 CREATE TABLE public.tb_funcao(
@@ -235,164 +197,6 @@ CREATE TABLE public.tb_membrofuncao(
 	CONSTRAINT pk_membrofuncao PRIMARY KEY (codmembro,codfuncao)
 )
 WITH (OIDS=FALSE);
-
--- object: public.tb_inscricao | type: TABLE -- 
-CREATE TABLE public.tb_inscricao(
-	codmembro numeric NOT NULL,
-	codevento numeric NOT NULL,
-	pagamento boolean NOT NULL,
-	status varchar(31) NOT NULL,
-	codcatinscricao numeric NOT NULL,
-	codequipe numeric,
-	inscritor numeric NOT NULL,
-	datainscricao date NOT NULL,
-	CONSTRAINT pk_inscricao PRIMARY KEY (codmembro,codevento)
-)
-WITH (OIDS=FALSE);
-
--- object: idx_inscricao | type: INDEX -- 
-CREATE INDEX idx_inscricao ON public.tb_inscricao
-	USING btree
-	(inscritor DESC NULLS LAST,datainscricao DESC NULLS LAST)
-	WITH (FILLFACTOR = 10)
-;
-
--- object: public.seq_tb_pessoa | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_pessoa
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: public.seq_tb_profissao | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_profissao
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: public.seq_tb_categoriamembro | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_categoriamembro
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: public.seq_tb_funcao | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_funcao
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: public.seq_tb_membro | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_membro
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: public.seq_tb_endereco | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_endereco
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: public.seq_tb_evento | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_evento
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: public.seq_tb_alojamento | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_alojamento
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: public.seq_tb_equipe | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_equipe
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: public.seq_tb_categoriainscricao | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_categoriainscricao
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: public.seq_tb_igreja | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_igreja
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: public.seq_tb_polo | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_polo
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: public.seq_tb_area | type: SEQUENCE -- 
-CREATE SEQUENCE public.seq_tb_area
-	INCREMENT BY 1
-	MINVALUE 0
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- object: fk_equipe | type: CONSTRAINT -- 
-ALTER TABLE public.tb_inscricao ADD CONSTRAINT fk_equipe FOREIGN KEY (codequipe)
-REFERENCES public.tb_equipe (codequipe) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
-
--- object: fk_catinscricao | type: CONSTRAINT -- 
-ALTER TABLE public.tb_inscricao ADD CONSTRAINT fk_catinscricao FOREIGN KEY (codcatinscricao)
-REFERENCES public.tb_categoriainscricao (codcatinscricao) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
-
--- object: fk_evento | type: CONSTRAINT -- 
-ALTER TABLE public.tb_inscricao ADD CONSTRAINT fk_evento FOREIGN KEY (codevento)
-REFERENCES public.tb_evento (codevento) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
-
--- object: fk_membro | type: CONSTRAINT -- 
-ALTER TABLE public.tb_inscricao ADD CONSTRAINT fk_membro FOREIGN KEY (codmembro)
-REFERENCES public.tb_membro (codmembro) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
 
 -- object: fk_funcao | type: CONSTRAINT -- 
 ALTER TABLE public.tb_membrofuncao ADD CONSTRAINT fk_funcao FOREIGN KEY (codfuncao)
@@ -434,23 +238,18 @@ ALTER TABLE public.tb_polo ADD CONSTRAINT fk_area FOREIGN KEY (codarea)
 REFERENCES public.tb_area (codarea) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
 
--- object: fk_endereco | type: CONSTRAINT -- 
-ALTER TABLE public.tb_igreja ADD CONSTRAINT fk_endereco FOREIGN KEY (codendereco)
-REFERENCES public.tb_endereco (codendereco) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
-
 -- object: fk_polo | type: CONSTRAINT -- 
 ALTER TABLE public.tb_igreja ADD CONSTRAINT fk_polo FOREIGN KEY (codpolo)
 REFERENCES public.tb_polo (codpolo) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
 
 -- object: fk_alojamento | type: CONSTRAINT -- 
-ALTER TABLE public.tb_evento_alojamento ADD CONSTRAINT fk_alojamento FOREIGN KEY (codalojamento)
+ALTER TABLE public.evento_alojamento ADD CONSTRAINT fk_alojamento FOREIGN KEY (codalojamento)
 REFERENCES public.tb_alojamento (codalojamento) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
 
 -- object: fk_evento | type: CONSTRAINT -- 
-ALTER TABLE public.tb_evento_alojamento ADD CONSTRAINT fk_evento FOREIGN KEY (codevento)
+ALTER TABLE public.evento_alojamento ADD CONSTRAINT fk_evento FOREIGN KEY (codevento)
 REFERENCES public.tb_evento (codevento) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
 
