@@ -176,7 +176,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="varchar" length="2" spatial-type="POINT" variation="0"/>
 	</column>
 	<column name="pais" not-null="true">
-		<type name="varbit" length="50" spatial-type="POINT" variation="0"/>
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
 	</column>
 	<constraint name="pk_endereco" type="pk-constr" factor="10" table="public.tb_endereco">
 		<columns names="codendereco" ref-type="src-columns"/>
@@ -213,7 +213,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="codigreja" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
-	<column name="codpresbiterio" not-null="true">
+	<column name="codpresbiterio">
 		<type name="varchar" length="10" spatial-type="POINT" variation="0"/>
 	</column>
 	<column name="nomeigreja" not-null="true">
@@ -222,14 +222,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="codpolo" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
-	<column name="pastor" not-null="true">
-		<type name="numeric" spatial-type="POINT" variation="0"/>
-	</column>
-	<column name="codendereco" not-null="true">
+	<column name="codendereco">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
 	<column name="complemento">
 		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="numerorua">
+		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
 	<constraint name="pk_igreja" type="pk-constr" factor="10" table="public.tb_igreja">
 		<columns names="codigreja" ref-type="src-columns"/>
@@ -238,7 +238,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="tb_pessoa" oids="true">
 	<schema name="public"/>
-	<position x="18.75" y="36.75"/>
+	<position x="18.75" y="9.75"/>
 	<column name="codpessoa" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 		<comment>chave de registro</comment>
@@ -399,7 +399,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="tb_profissao" oids="false">
 	<schema name="public"/>
-	<position x="14.25" y="382"/>
+	<position x="17.25" y="375"/>
 	<column name="codprofissao" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
@@ -425,9 +425,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="tb_membro" oids="false">
+<table name="tb_membro" oids="true">
 	<schema name="public"/>
-	<position x="587" y="58.75"/>
+	<position x="631" y="85.75"/>
 	<column name="codmembro" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
@@ -443,7 +443,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="codendereco" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
-	<column name="codigreja" not-null="true">
+	<column name="codigreja">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
 	<constraint name="pk_membro" type="pk-constr" factor="10" table="public.tb_membro">
@@ -514,7 +514,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="tb_membrofuncao" oids="false">
 	<schema name="public"/>
-	<position x="428.25" y="404.75"/>
+	<position x="380.25" y="461.75"/>
 	<column name="codmembro" not-null="true">
 		<type name="numeric" spatial-type="POINT" variation="0"/>
 	</column>
