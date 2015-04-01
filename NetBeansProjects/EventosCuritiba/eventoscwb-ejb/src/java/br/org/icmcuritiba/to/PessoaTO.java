@@ -14,16 +14,24 @@ import br.org.icmcuritiba.entity.Pessoa;
  */
 public class PessoaTO {
     
-    private List<Pessoa> lstPessoa;
+    private String nomePessoa;
+    private String cpf;
 
-    public List<Pessoa> getLstPessoa() {
-        return lstPessoa;
+    public String getNomePessoa() {
+        return nomePessoa;
     }
 
-    public void setLstPessoa(List<Pessoa> lstPessoa) {
-        this.lstPessoa = lstPessoa;
+    public void setNomePessoa(String nomePessoa) {
+        this.nomePessoa = nomePessoa;
     }
-    
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
     
     
 }

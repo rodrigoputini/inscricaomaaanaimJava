@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author s016361
+ * @author Rodrigo C Putini - rodrigo.putini@gmail.com
  */
 @Entity
 @Table(name = "tb_pessoa")
@@ -139,7 +139,7 @@ public class Pessoa implements Serializable {
     @Size(max = 20)
     @Column(name = "numerorua")
     private String numerorua;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "codpessoa", fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "codpessoa", fetch = FetchType.LAZY)
     private Membro membro;
 
     public Pessoa() {

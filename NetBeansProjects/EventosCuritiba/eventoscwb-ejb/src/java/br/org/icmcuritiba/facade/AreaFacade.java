@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author s016361
+ * @author Rodrigo C Putini - rodrigo.putini@gmail.com
  */
 @Stateless
 public class AreaFacade extends AbstractFacade<Area> {

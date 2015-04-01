@@ -28,13 +28,14 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author s016361
+ * @author Rodrigo C Putini - rodrigo.putini@gmail.com
  */
 @Entity
 @Table(name = "tb_membro")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Membro.findAll", query = "SELECT m FROM Membro m"),
+    @NamedQuery(name = "Membro.findByCodPessoa", query = "SELECT m FROM Membro m WHERE m.codpessoa.codpessoa = :codpessoa"),
     @NamedQuery(name = "Membro.findByCodmembro", query = "SELECT m FROM Membro m WHERE m.codmembro = :codmembro")})
 public class Membro implements Serializable {
     private static final long serialVersionUID = 1L;

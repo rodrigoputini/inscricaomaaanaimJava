@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author s016361
+ * @author Rodrigo C Putini - rodrigo.putini@gmail.com
  */
 @Entity
 @Table(name = "tb_area")

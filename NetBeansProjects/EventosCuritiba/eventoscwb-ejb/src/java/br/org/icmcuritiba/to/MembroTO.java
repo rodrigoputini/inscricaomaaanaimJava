@@ -5,6 +5,7 @@
  */
 package br.org.icmcuritiba.to;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
  * @author Rodrigo Camargo Putini - rodrigo.putini@gmail.com
  * @since 20 mar 2015
  */
-public class MembroTO {
+public class MembroTO implements Serializable {
 
     private BigDecimal codpessoa;
     private String nome;
@@ -36,7 +37,23 @@ public class MembroTO {
     private String complemento;
     private String numerorua;
     private BigDecimal codmembro;
-    private String codigreja;
+    private String codigreja; //no front-end representa o codpresbiterio
+    private BigDecimal codprofissao;
+    private String descprofissao;
+    private BigDecimal codcategoriamembro;
+    private String desccategoriamembro;
+    private BigDecimal codendereco;
+    private String logradouro;
+    private String cep;
+    private String bairro;
+    private String cidade;
+    private String estado;
+    private String pais;
+    private String mensagem;
+    
+    //campo que representa para o front-end se a pessoa é membro ou nao-membro //entende-se membro os cod pessoa 
+    //que constam na tabela de membros e nao somente na tabela pessoas
+    private String status;    
 
     public BigDecimal getCodpessoa() {
         return codpessoa;
@@ -222,5 +239,108 @@ public class MembroTO {
         this.codigreja = codigreja;
     }
 
+    public BigDecimal getCodprofissao() {
+        return codprofissao;
+    }
+
+    public void setCodprofissao(BigDecimal codprofissao) {
+        this.codprofissao = codprofissao;
+    }
+
+    public String getDescprofissao() {
+        return descprofissao;
+    }
+
+    public void setDescprofissao(String descprofissao) {
+        this.descprofissao = descprofissao;
+    }
+
+    public BigDecimal getCodcategoriamembro() {
+        return codcategoriamembro;
+    }
+
+    public void setCodcategoriamembro(BigDecimal codcategoriamembro) {
+        this.codcategoriamembro = codcategoriamembro;
+    }
+
+    public String getDesccategoriamembro() {
+        return desccategoriamembro;
+    }
+
+    public void setDesccategoriamembro(String desccategoriamembro) {
+        this.desccategoriamembro = desccategoriamembro;
+    }
+
+    public BigDecimal getCodendereco() {
+        return codendereco;
+    }
+
+    public void setCodendereco(BigDecimal codendereco) {
+        this.codendereco = codendereco;
+    }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
     
 }

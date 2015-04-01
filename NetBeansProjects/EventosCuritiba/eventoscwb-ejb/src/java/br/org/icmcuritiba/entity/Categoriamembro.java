@@ -25,13 +25,13 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author s016361
+ * @author Rodrigo C Putini - rodrigo.putini@gmail.com
  */
 @Entity
 @Table(name = "tb_categoriamembro")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Categoriamembro.findAll", query = "SELECT c FROM Categoriamembro c"),
+    @NamedQuery(name = "Categoriamembro.findAll", query = "SELECT c FROM Categoriamembro c ORDER BY c.desccategoriamembro"),
     @NamedQuery(name = "Categoriamembro.findByCodcategoriamembro", query = "SELECT c FROM Categoriamembro c WHERE c.codcategoriamembro = :codcategoriamembro"),
     @NamedQuery(name = "Categoriamembro.findByDesccategoriamembro", query = "SELECT c FROM Categoriamembro c WHERE c.desccategoriamembro = :desccategoriamembro")})
 public class Categoriamembro implements Serializable {
