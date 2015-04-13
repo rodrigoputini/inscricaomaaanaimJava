@@ -16,6 +16,8 @@ public class PessoaTO {
     
     private String nomePessoa;
     private String cpf;
+    private String codPresbiterio;
+    private String cep;
 
     public String getNomePessoa() {
         return nomePessoa;
@@ -31,6 +33,22 @@ public class PessoaTO {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getCodPresbiterio() {
+        return codPresbiterio;
+    }
+
+    public void setCodPresbiterio(String codPresbiterio) {
+        this.codPresbiterio = codPresbiterio;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
     }
     
     

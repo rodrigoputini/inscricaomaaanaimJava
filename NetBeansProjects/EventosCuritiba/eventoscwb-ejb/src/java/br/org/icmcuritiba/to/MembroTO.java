@@ -21,13 +21,13 @@ public class MembroTO implements Serializable {
     private String estadocivil;
     private Date datanascimento;
     private String tiposangue;
-    private boolean doadorsangue;
+    private String doadorsangue;
     private String identidade;
     private String rgorgaoexpedidor;
     private Date rgdataexpedicao;
     private String email;
     private String cpf;
-    private boolean pne;
+    private String pne;
     private String tipopne;
     private String observacoes;
     private String docinternacional;
@@ -103,13 +103,6 @@ public class MembroTO implements Serializable {
         this.tiposangue = tiposangue;
     }
 
-    public boolean isDoadorsangue() {
-        return doadorsangue;
-    }
-
-    public void setDoadorsangue(boolean doadorsangue) {
-        this.doadorsangue = doadorsangue;
-    }
 
     public String getIdentidade() {
         return identidade;
@@ -149,14 +142,6 @@ public class MembroTO implements Serializable {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public boolean isPne() {
-        return pne;
-    }
-
-    public void setPne(boolean pne) {
-        this.pne = pne;
     }
 
     public String getTipopne() {
@@ -341,6 +326,22 @@ public class MembroTO implements Serializable {
 
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
+    }
+
+    public String getDoadorsangue() {
+        return doadorsangue;
+    }
+
+    public void setDoadorsangue(String doadorsangue) {
+        this.doadorsangue = doadorsangue;
+    }
+
+    public String getPne() {
+        return pne;
+    }
+
+    public void setPne(String pne) {
+        this.pne = pne;
     }
     
 }

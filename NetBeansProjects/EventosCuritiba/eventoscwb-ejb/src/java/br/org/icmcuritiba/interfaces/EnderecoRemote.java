@@ -17,5 +17,6 @@ import javax.ejb.Remote;
 public interface EnderecoRemote {
     public Endereco getEnderecoByCep(String cep);
     public Endereco getEnderecoById(BigDecimal codEndereco);
+    public void create(Endereco endereco);
     
 }

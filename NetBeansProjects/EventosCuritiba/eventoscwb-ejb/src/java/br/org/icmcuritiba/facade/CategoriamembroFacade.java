@@ -47,7 +47,7 @@ public class CategoriamembroFacade extends AbstractFacade<Categoriamembro> imple
     }
 
     @Override
-    public Categoriamembro getCategoriasMembroById(BigDecimal codCatMembro) {
+    public Categoriamembro getCategoriaMembroById(BigDecimal codCatMembro) {
         Categoriamembro catMembro = new Categoriamembro();
         try {
             Query q = this.getEntityManager().createNamedQuery("Categoriamembro.findByCodcategoriamembro");

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class EventosException extends Exception{
     
     public EventosException(Exception e, String className){
-         Logger.getLogger(className).log(Level.SEVERE, null, e);
+         Logger.getLogger(className).log(Level.INFO, null, e);
         //loga exception
         // envia alerta de excessão
         

@@ -17,6 +17,6 @@ import javax.ejb.Remote;
 @Remote
 public interface CategoriaMembroRemote {
     public List<Categoriamembro> getAllCategoriasMembro();
-    public Categoriamembro getCategoriasMembroById(BigDecimal codCatMembro);
+    public Categoriamembro getCategoriaMembroById(BigDecimal codCatMembro);
     
 }

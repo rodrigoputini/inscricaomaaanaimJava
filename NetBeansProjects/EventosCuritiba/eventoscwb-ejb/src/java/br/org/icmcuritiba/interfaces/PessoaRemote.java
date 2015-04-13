@@ -19,4 +19,6 @@ public interface PessoaRemote {
      public Pessoa getByCpf(String cpf);
      public MembroTO loadFullMembro(BigDecimal codPessoa);
      public Pessoa getByCpfNotMember(String cpf);
+     public void create(Pessoa pessoa);
+     public void edit(Pessoa pessoa);
 }

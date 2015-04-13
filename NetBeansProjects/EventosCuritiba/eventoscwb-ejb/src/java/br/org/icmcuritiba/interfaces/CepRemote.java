@@ -5,20 +5,16 @@
  */
 package br.org.icmcuritiba.interfaces;
 
-import br.org.icmcuritiba.entity.Membro;
-import java.math.BigDecimal;
+import br.org.icmcuritiba.entity.Cep;
 import javax.ejb.Remote;
 
 /**
- *
  * @author Rodrigo C Putini - rodrigo.putini@gmail.com
+ * @since 09 Apr 2015
  */
 @Remote
-public interface MembroRemote {
+public interface CepRemote {
     
-    public Membro getMembroById(BigDecimal codMembro);
-    public Membro getMembroByCodPessoa(BigDecimal codPessoa);
-    public void create(Membro membro);
-    public void edit(Membro membro);
+    public Cep loadUnknowAddress(String cep);
     
 }

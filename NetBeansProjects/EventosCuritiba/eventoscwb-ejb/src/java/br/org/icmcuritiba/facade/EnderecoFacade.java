@@ -34,7 +34,17 @@ public class EnderecoFacade extends AbstractFacade<Endereco> implements Endereco
 
     @Override
     public Endereco getEnderecoByCep(String cep) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Endereco endereco  = new Endereco();
+        try{
+            Query q = this.getEntityManager().createNamedQuery("Endereco.findByCep");
+            q.setParameter("cep", cep);
+            endereco = (Endereco)q.getSingleResult();
+        }
+        catch(Exception e){
+            //new EventosException(e, EnderecoFacade.class.getName());
+            endereco = null;
+        }
+        return endereco;
     }
 
     @Override

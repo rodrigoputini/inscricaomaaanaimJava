@@ -5,8 +5,8 @@
  */
 package br.org.icmcuritiba.facade;
 
-import br.org.icmcuritiba.entity.Categoriamembro;
 import br.org.icmcuritiba.entity.Endereco;
+import br.org.icmcuritiba.entity.Igreja;
 import br.org.icmcuritiba.entity.Membro;
 import br.org.icmcuritiba.entity.Pessoa;
 import br.org.icmcuritiba.exception.EventosException;
@@ -24,9 +24,9 @@ import javax.persistence.Query;
  *
  * @author Rodrigo C Putini
  */
-
 @Stateless
-public class PessoaFacade extends AbstractFacade<Pessoa> implements PessoaRemote{
+public class PessoaFacade extends AbstractFacade<Pessoa> implements PessoaRemote {
+
     @PersistenceContext(unitName = "eventoscwb-ejbPU")
     private EntityManager em;
 
@@ -38,17 +38,15 @@ public class PessoaFacade extends AbstractFacade<Pessoa> implements PessoaRemote
     public PessoaFacade() {
         super(Pessoa.class);
     }
-    
-    
 
     @Override
-    public List<Pessoa> getAllPessoas(){
-        List<Pessoa> lstPessoa= null;
+    public List<Pessoa> getAllPessoas() {
+        List<Pessoa> lstPessoa = null;
         try {
             Query q = this.getEntityManager().createNamedQuery("Pessoa.findAll");
             lstPessoa = q.getResultList();
-         } catch (Exception e) {
-             new EventosException(e, PessoaFacade.class.getName());
+        } catch (Exception e) {
+            new EventosException(e, PessoaFacade.class.getName());
         }
         return lstPessoa;
     }
@@ -61,21 +59,21 @@ public class PessoaFacade extends AbstractFacade<Pessoa> implements PessoaRemote
             q.setParameter("codPresbiterio", codPresbiterio);
             lstPessoa = q.getResultList();
         } catch (Exception e) {
-             new EventosException(e, PessoaFacade.class.getName());
+            new EventosException(e, PessoaFacade.class.getName());
         }
         return lstPessoa;
     }
 
     @Override
     public List<Pessoa> getByNameAutocompleteNotMember(String nome) {
-         List<Pessoa> lstPessoa = new ArrayList<Pessoa>();
-         StringBuffer sql = new StringBuffer();
-         sql.append("select * from tb_pessoa p where p.codpessoa not in (select m.codpessoa from tb_membro m ) and p.nome like '")
-                 .append(nome).append("%'");
+        List<Pessoa> lstPessoa = new ArrayList<Pessoa>();
+        StringBuffer sql = new StringBuffer();
+        sql.append("select * from tb_pessoa p where p.codpessoa not in (select m.codpessoa from tb_membro m ) and p.nome like '")
+                .append(nome).append("%'");
         try {
             lstPessoa = this.getEntityManager().createNativeQuery(sql.toString(), Pessoa.class).getResultList();
         } catch (Exception e) {
-             new EventosException(e, PessoaFacade.class.getName());
+            new EventosException(e, PessoaFacade.class.getName());
         }
         return lstPessoa;
     }
@@ -84,13 +82,14 @@ public class PessoaFacade extends AbstractFacade<Pessoa> implements PessoaRemote
     public Pessoa getByCpf(String cpf) {
         Pessoa pessoa = new Pessoa();
         StringBuffer sql = new StringBuffer();
-         sql.append("select * from tb_pessoa p where p.codpessoa in (select m.codpessoa from tb_membro m ) and p.cpf = '")
-                 .append(cpf).append("'");
+        sql.append("select * from tb_pessoa p where p.codpessoa in (select m.codpessoa from tb_membro m ) and p.cpf = '")
+                .append(cpf).append("'");
         try {
-            pessoa = (Pessoa)this.getEntityManager().createNativeQuery(sql.toString(), Pessoa.class).getSingleResult();
-            
+            pessoa = (Pessoa) this.getEntityManager().createNativeQuery(sql.toString(), Pessoa.class).getSingleResult();
+
         } catch (Exception e) {
-             new EventosException(e, PessoaFacade.class.getName());
+            //new EventosException(e, PessoaFacade.class.getName());
+            pessoa = null;
         }
         return pessoa;
 
@@ -102,9 +101,10 @@ public class PessoaFacade extends AbstractFacade<Pessoa> implements PessoaRemote
         try {
             Query q = this.getEntityManager().createNamedQuery("Pessoa.findByCpf");
             q.setParameter("cpf", cpf);
-            pessoa = (Pessoa)q.getSingleResult();
+            pessoa = (Pessoa) q.getSingleResult();
         } catch (Exception e) {
-             new EventosException(e, PessoaFacade.class.getName());
+            //new EventosException(e, PessoaFacade.class.getName());
+            pessoa = null;
         }
         return pessoa;
     }
@@ -114,21 +114,25 @@ public class PessoaFacade extends AbstractFacade<Pessoa> implements PessoaRemote
         MembroTO membroto = new MembroTO();
         Membro membro = new Membro();
         Endereco e = new Endereco();
+        Igreja i = new Igreja();
         StringBuffer sql = new StringBuffer();
-         sql.append("select * from tb_membro m where m.codpessoa = ")
-                 .append(codpessoa);
-        try{
+        sql.append("select * from tb_membro m where m.codpessoa = ")
+                .append(codpessoa); 
+        try {
             //Carrega membro
-            membro = (Membro)this.getEntityManager().createNativeQuery(sql.toString(),Membro.class).getSingleResult();
+            membro = (Membro) this.getEntityManager().createNativeQuery(sql.toString(), Membro.class).getSingleResult();
 
             membroto.setCodmembro(membro.getCodmembro());
             membroto.setCodcategoriamembro(membro.getCodcategoriamembro().getCodcategoriamembro());
             membroto.setCodprofissao(membro.getCodprofissao().getCodprofissao());
-            
+        } catch (Exception ex) {
+            new EventosException(ex, PessoaFacade.class.getName());
+        }
+
+        try {
             Query qe = this.getEntityManager().createNamedQuery("Endereco.findByCodendereco");
             qe.setParameter("codendereco", membro.getCodendereco().getCodendereco());
-            e = (Endereco)qe.getSingleResult();
-            
+            e = (Endereco) qe.getSingleResult();
             membroto.setCodendereco(e.getCodendereco());
             membroto.setLogradouro(e.getLogradouro());
             membroto.setBairro(e.getBairro());
@@ -136,14 +140,20 @@ public class PessoaFacade extends AbstractFacade<Pessoa> implements PessoaRemote
             membroto.setEstado(e.getEstado());
             membroto.setPais(e.getPais());
             membroto.setCep(e.getCep());
+        } catch (Exception ex2) {
         }
-        catch(Exception ex){
-            new EventosException(ex, PessoaFacade.class.getName());
+
+        try {
+            Query qi = this.getEntityManager().createNamedQuery("Igreja.findByCodigreja");
+            qi.setParameter("codigreja", membro.getCodigreja().getCodigreja());
+            i = (Igreja) qi.getSingleResult();
+
+            membroto.setCodigreja(i.getCodpresbiterio());
+        } catch (Exception ex3) {
         }
-        
-        
+
         return membroto;
-        
+
     }
-    
+
 }
