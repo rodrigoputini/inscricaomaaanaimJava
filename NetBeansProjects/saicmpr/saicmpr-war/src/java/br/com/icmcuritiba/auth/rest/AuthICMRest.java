@@ -9,7 +9,6 @@ import br.com.icmcuritiba.auth.to.MenuTO;
 import br.com.icmcuritiba.auth.to.SessionTO;
 import br.com.icmcuritiba.auth.to.UserTO;
 import br.com.icmcuritiba.ejb.AuthBeanRemote;
-import br.com.icmcuritiba.ejb.AutorizationBean;
 import br.com.icmcuritiba.ejb.AutorizationBeanRemote;
 import java.util.List;
 import javax.naming.InitialContext;
