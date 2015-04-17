@@ -209,212 +209,214 @@ public class PessoaWS {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Mensagem saveMember(MembroTO mto) throws EventosException {
-        Mensagem msg = new Mensagem();
-        try {
-            PessoaRemote pessoaEjb = (PessoaRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/PessoaFacade!br.org.icmcuritiba.interfaces.PessoaRemote");
-            MembroRemote membroEjb = (MembroRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/MembroFacade!br.org.icmcuritiba.interfaces.MembroRemote");
-            EnderecoRemote enderecoEjb = (EnderecoRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/EnderecoFacade!br.org.icmcuritiba.interfaces.EnderecoRemote");
-            CepRemote cepEjb = (CepRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/CepFacade!br.org.icmcuritiba.interfaces.CepRemote");
-            IgrejaRemote igrejaEjb = (IgrejaRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/IgrejaFacade!br.org.icmcuritiba.interfaces.IgrejaRemote");
-            CategoriaMembroRemote catMembroEjb = (CategoriaMembroRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/CategoriamembroFacade!br.org.icmcuritiba.interfaces.CategoriaMembroRemote");
-            ProfissaoRemote profEjb = (ProfissaoRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/ProfissaoFacade!br.org.icmcuritiba.interfaces.ProfissaoRemote");
-            if (mto.getStatus().equalsIgnoreCase("novo")) {
-                //dados para novo registro de tabela pessoa
-                Pessoa pessoa = new Pessoa();
-                pessoa.setCelular(mto.getCelular());
-                pessoa.setComplemento(mto.getComplemento());
-                pessoa.setCpf(mto.getCpf());
-                pessoa.setDatanascimento(mto.getDatanascimento());
-                pessoa.setDoadorsangue(Boolean.parseBoolean(mto.getDoadorsangue()));
-                pessoa.setDocinternacional(mto.getDocinternacional());
-                pessoa.setEmail(mto.getEmail());
-                pessoa.setEstadocivil(mto.getEstadocivil());
-                pessoa.setIdentidade(mto.getIdentidade());
-                pessoa.setNome(mto.getNome());
-                pessoa.setNumerorua(mto.getNumerorua());
-                pessoa.setObservacoes(mto.getObservacoes());
-                pessoa.setPne(Boolean.parseBoolean(mto.getPne()));
-                pessoa.setRgdataexpedicao(mto.getRgdataexpedicao());
-                pessoa.setRgorgaoexpedidor(mto.getRgorgaoexpedidor());
-                pessoa.setSexo(mto.getSexo());
-                pessoa.setTelcomercial(mto.getTelcomercial());
-                pessoa.setTelefone(mto.getTelefone());
-                pessoa.setTipopne(mto.getTipopne());
-                pessoa.setTiposangue(mto.getTiposangue());
-                pessoaEjb.create(pessoa);
-                pessoa = pessoaEjb.getByCpfNotMember(mto.getCpf());
-                //dados novo registro de tabela membro
-                Membro membro = new Membro();
-                Endereco endereco = enderecoEjb.getEnderecoByCep(mto.getCep());
-                //endereco do membro
-                if (null != endereco) {
+        synchronized (this) {
+            Mensagem msg = new Mensagem();
+            try {
+                PessoaRemote pessoaEjb = (PessoaRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/PessoaFacade!br.org.icmcuritiba.interfaces.PessoaRemote");
+                MembroRemote membroEjb = (MembroRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/MembroFacade!br.org.icmcuritiba.interfaces.MembroRemote");
+                EnderecoRemote enderecoEjb = (EnderecoRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/EnderecoFacade!br.org.icmcuritiba.interfaces.EnderecoRemote");
+                CepRemote cepEjb = (CepRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/CepFacade!br.org.icmcuritiba.interfaces.CepRemote");
+                IgrejaRemote igrejaEjb = (IgrejaRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/IgrejaFacade!br.org.icmcuritiba.interfaces.IgrejaRemote");
+                CategoriaMembroRemote catMembroEjb = (CategoriaMembroRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/CategoriamembroFacade!br.org.icmcuritiba.interfaces.CategoriaMembroRemote");
+                ProfissaoRemote profEjb = (ProfissaoRemote) new InitialContext().lookup("ejb:EventosCuritiba/eventoscwb-ejb/ProfissaoFacade!br.org.icmcuritiba.interfaces.ProfissaoRemote");
+                if (mto.getStatus().equalsIgnoreCase("novo")) {
+                    //dados para novo registro de tabela pessoa
+                    Pessoa pessoa = new Pessoa();
+                    pessoa.setCelular(mto.getCelular());
+                    pessoa.setComplemento(mto.getComplemento());
+                    pessoa.setCpf(mto.getCpf());
+                    pessoa.setDatanascimento(mto.getDatanascimento());
+                    pessoa.setDoadorsangue(Boolean.parseBoolean(mto.getDoadorsangue()));
+                    pessoa.setDocinternacional(mto.getDocinternacional());
+                    pessoa.setEmail(mto.getEmail());
+                    pessoa.setEstadocivil(mto.getEstadocivil());
+                    pessoa.setIdentidade(mto.getIdentidade());
+                    pessoa.setNome(mto.getNome());
+                    pessoa.setNumerorua(mto.getNumerorua());
+                    pessoa.setObservacoes(mto.getObservacoes());
+                    pessoa.setPne(Boolean.parseBoolean(mto.getPne()));
+                    pessoa.setRgdataexpedicao(mto.getRgdataexpedicao());
+                    pessoa.setRgorgaoexpedidor(mto.getRgorgaoexpedidor());
+                    pessoa.setSexo(mto.getSexo());
+                    pessoa.setTelcomercial(mto.getTelcomercial());
+                    pessoa.setTelefone(mto.getTelefone());
+                    pessoa.setTipopne(mto.getTipopne());
+                    pessoa.setTiposangue(mto.getTiposangue());
+                    pessoaEjb.create(pessoa);
+                    pessoa = pessoaEjb.getByCpfNotMember(mto.getCpf());
+                    //dados novo registro de tabela membro
+                    Membro membro = new Membro();
+                    Endereco endereco = enderecoEjb.getEnderecoByCep(mto.getCep());
+                    //endereco do membro
+                    if (null != endereco) {
+                        membro.setCodendereco(endereco);
+                    } else {
+                        Cep cep = cepEjb.loadUnknowAddress(mto.getCep());
+                        endereco = new Endereco();
+                        endereco.setCep(cep.getCep());
+                        endereco.setBairro(cep.getBairro());
+                        endereco.setCidade(cep.getCidade());
+                        endereco.setEstado(cep.getEstado());
+                        endereco.setLogradouro(cep.getLogradouro());
+                        endereco.setPais(cep.getPais());
+                        enderecoEjb.create(endereco);
+                        endereco = enderecoEjb.getEnderecoByCep(mto.getCep());
+                    }
                     membro.setCodendereco(endereco);
-                } else {
-                    Cep cep = cepEjb.loadUnknowAddress(mto.getCep());
-                    endereco = new Endereco();
-                    endereco.setCep(cep.getCep());
-                    endereco.setBairro(cep.getBairro());
-                    endereco.setCidade(cep.getCidade());
-                    endereco.setEstado(cep.getEstado());
-                    endereco.setLogradouro(cep.getLogradouro());
-                    endereco.setPais(cep.getPais());
-                    enderecoEjb.create(endereco);
-                    endereco = enderecoEjb.getEnderecoByCep(mto.getCep());
-                }
-                membro.setCodendereco(endereco);
-                //igreja do membro
+                    //igreja do membro
 
-                Igreja igreja = igrejaEjb.getIgrejaByCodPresbiterio(mto.getCodigreja());
-                membro.setCodigreja(igreja);
-                //categoria do membro
+                    Igreja igreja = igrejaEjb.getIgrejaByCodPresbiterio(mto.getCodigreja());
+                    membro.setCodigreja(igreja);
+                    //categoria do membro
 
-                Categoriamembro catmem = catMembroEjb.getCategoriaMembroById(mto.getCodcategoriamembro());
-                membro.setCodcategoriamembro(catmem);
-                //pessoa membro de igreja
-                membro.setCodpessoa(pessoa);
-                //profissao do membro
-                if (null != mto.getCodprofissao()) {
-                    Profissao profissao = profEjb.getProfissaoById(mto.getCodprofissao());
-                    membro.setCodprofissao(profissao);
-                }
+                    Categoriamembro catmem = catMembroEjb.getCategoriaMembroById(mto.getCodcategoriamembro());
+                    membro.setCodcategoriamembro(catmem);
+                    //pessoa membro de igreja
+                    membro.setCodpessoa(pessoa);
+                    //profissao do membro
+                    if (null != mto.getCodprofissao()) {
+                        Profissao profissao = profEjb.getProfissaoById(mto.getCodprofissao());
+                        membro.setCodprofissao(profissao);
+                    }
 
-                //persiste membro com dados de pessoa, endereco, igreja, profissao, categoria
-                membroEjb.create(membro);
-                msg.setMensagem("Membro cadastrado com sucesso!");
+                    //persiste membro com dados de pessoa, endereco, igreja, profissao, categoria
+                    membroEjb.create(membro);
+                    msg.setMensagem("Membro cadastrado com sucesso!");
 
-            } else if (mto.getStatus().equalsIgnoreCase("naomembro")) {
-                //dados para novo registro de tabela pessoa
-                Pessoa pessoa = pessoaEjb.getByCpfNotMember(mto.getCpf());
-                pessoa.setCelular(mto.getCelular());
-                pessoa.setComplemento(mto.getComplemento());
-                pessoa.setCpf(mto.getCpf());
-                pessoa.setDatanascimento(mto.getDatanascimento());
-                pessoa.setDoadorsangue(Boolean.parseBoolean(mto.getDoadorsangue()));
-                pessoa.setDocinternacional(mto.getDocinternacional());
-                pessoa.setEmail(mto.getEmail());
-                pessoa.setEstadocivil(mto.getEstadocivil());
-                pessoa.setIdentidade(mto.getIdentidade());
-                pessoa.setNome(mto.getNome());
-                pessoa.setNumerorua(mto.getNumerorua());
-                pessoa.setObservacoes(mto.getObservacoes());
-                pessoa.setPne(Boolean.parseBoolean(mto.getPne()));
-                pessoa.setRgdataexpedicao(mto.getRgdataexpedicao());
-                pessoa.setRgorgaoexpedidor(mto.getRgorgaoexpedidor());
-                pessoa.setSexo(mto.getSexo());
-                pessoa.setTelcomercial(mto.getTelcomercial());
-                pessoa.setTelefone(mto.getTelefone());
-                pessoa.setTipopne(mto.getTipopne());
-                pessoa.setTiposangue(mto.getTiposangue());
-                pessoaEjb.edit(pessoa);
-                //dados novo registro de tabela membro
-                Membro membro = new Membro();
-                Endereco endereco = enderecoEjb.getEnderecoByCep(mto.getCep());
-                //endereco do membro
-                if (null != endereco) {
+                } else if (mto.getStatus().equalsIgnoreCase("naomembro")) {
+                    //dados para novo registro de tabela pessoa
+                    Pessoa pessoa = pessoaEjb.getByCpfNotMember(mto.getCpf());
+                    pessoa.setCelular(mto.getCelular());
+                    pessoa.setComplemento(mto.getComplemento());
+                    pessoa.setCpf(mto.getCpf());
+                    pessoa.setDatanascimento(mto.getDatanascimento());
+                    pessoa.setDoadorsangue(Boolean.parseBoolean(mto.getDoadorsangue()));
+                    pessoa.setDocinternacional(mto.getDocinternacional());
+                    pessoa.setEmail(mto.getEmail());
+                    pessoa.setEstadocivil(mto.getEstadocivil());
+                    pessoa.setIdentidade(mto.getIdentidade());
+                    pessoa.setNome(mto.getNome());
+                    pessoa.setNumerorua(mto.getNumerorua());
+                    pessoa.setObservacoes(mto.getObservacoes());
+                    pessoa.setPne(Boolean.parseBoolean(mto.getPne()));
+                    pessoa.setRgdataexpedicao(mto.getRgdataexpedicao());
+                    pessoa.setRgorgaoexpedidor(mto.getRgorgaoexpedidor());
+                    pessoa.setSexo(mto.getSexo());
+                    pessoa.setTelcomercial(mto.getTelcomercial());
+                    pessoa.setTelefone(mto.getTelefone());
+                    pessoa.setTipopne(mto.getTipopne());
+                    pessoa.setTiposangue(mto.getTiposangue());
+                    pessoaEjb.edit(pessoa);
+                    //dados novo registro de tabela membro
+                    Membro membro = new Membro();
+                    Endereco endereco = enderecoEjb.getEnderecoByCep(mto.getCep());
+                    //endereco do membro
+                    if (null != endereco) {
+                        membro.setCodendereco(endereco);
+                    } else {
+                        Cep cep = cepEjb.loadUnknowAddress(mto.getCep());
+                        endereco = new Endereco();
+                        endereco.setCep(cep.getCep());
+                        endereco.setBairro(cep.getBairro());
+                        endereco.setCidade(cep.getCidade());
+                        endereco.setEstado(cep.getEstado());
+                        endereco.setLogradouro(cep.getLogradouro());
+                        endereco.setPais(cep.getPais());
+                        enderecoEjb.create(endereco);
+                        endereco = enderecoEjb.getEnderecoByCep(mto.getCep());
+                    }
                     membro.setCodendereco(endereco);
-                } else {
-                    Cep cep = cepEjb.loadUnknowAddress(mto.getCep());
-                    endereco = new Endereco();
-                    endereco.setCep(cep.getCep());
-                    endereco.setBairro(cep.getBairro());
-                    endereco.setCidade(cep.getCidade());
-                    endereco.setEstado(cep.getEstado());
-                    endereco.setLogradouro(cep.getLogradouro());
-                    endereco.setPais(cep.getPais());
-                    enderecoEjb.create(endereco);
-                    endereco = enderecoEjb.getEnderecoByCep(mto.getCep());
-                }
-                membro.setCodendereco(endereco);
-                //igreja do membro
-                Igreja igreja = igrejaEjb.getIgrejaByCodPresbiterio(mto.getCodigreja());
-                membro.setCodigreja(igreja);
-                //categoria do membro
-                Categoriamembro catmem = catMembroEjb.getCategoriaMembroById(mto.getCodcategoriamembro());
-                membro.setCodcategoriamembro(catmem);
-                //pessoa membro de igreja
-                membro.setCodpessoa(pessoa);
-                //profissao do membro
-                if (null != mto.getCodprofissao()) {
-                    Profissao profissao = profEjb.getProfissaoById(mto.getCodprofissao());
-                    membro.setCodprofissao(profissao);
-                }
+                    //igreja do membro
+                    Igreja igreja = igrejaEjb.getIgrejaByCodPresbiterio(mto.getCodigreja());
+                    membro.setCodigreja(igreja);
+                    //categoria do membro
+                    Categoriamembro catmem = catMembroEjb.getCategoriaMembroById(mto.getCodcategoriamembro());
+                    membro.setCodcategoriamembro(catmem);
+                    //pessoa membro de igreja
+                    membro.setCodpessoa(pessoa);
+                    //profissao do membro
+                    if (null != mto.getCodprofissao()) {
+                        Profissao profissao = profEjb.getProfissaoById(mto.getCodprofissao());
+                        membro.setCodprofissao(profissao);
+                    }
 
-                //persiste membro com dados de pessoa, endereco, igreja, profissao, categoria
-                membroEjb.create(membro);
-                msg.setMensagem("Membro atualizado com sucesso!");
+                    //persiste membro com dados de pessoa, endereco, igreja, profissao, categoria
+                    membroEjb.create(membro);
+                    msg.setMensagem("Membro atualizado com sucesso!");
 
-            } else if (mto.getStatus().equalsIgnoreCase("membro")) {
-                Pessoa pessoa = pessoaEjb.getByCpf(mto.getCpf());
-                pessoa.setCelular(mto.getCelular());
-                pessoa.setComplemento(mto.getComplemento());
-                pessoa.setCpf(mto.getCpf());
-                pessoa.setDatanascimento(mto.getDatanascimento());
-                pessoa.setDoadorsangue(Boolean.parseBoolean(mto.getDoadorsangue()));
-                pessoa.setDocinternacional(mto.getDocinternacional());
-                pessoa.setEmail(mto.getEmail());
-                pessoa.setEstadocivil(mto.getEstadocivil());
-                pessoa.setIdentidade(mto.getIdentidade());
-                pessoa.setNome(mto.getNome());
-                pessoa.setNumerorua(mto.getNumerorua());
-                pessoa.setObservacoes(mto.getObservacoes());
-                pessoa.setPne(Boolean.parseBoolean(mto.getPne()));
-                pessoa.setRgdataexpedicao(mto.getRgdataexpedicao());
-                pessoa.setRgorgaoexpedidor(mto.getRgorgaoexpedidor());
-                pessoa.setSexo(mto.getSexo());
-                pessoa.setTelcomercial(mto.getTelcomercial());
-                pessoa.setTelefone(mto.getTelefone());
-                pessoa.setTipopne(mto.getTipopne());
-                pessoa.setTiposangue(mto.getTiposangue());
-                pessoaEjb.edit(pessoa);
-                //dados novo registro de tabela membro
-                Membro membro = new Membro();
-                Endereco endereco = enderecoEjb.getEnderecoByCep(mto.getCep());
-                //endereco do membro
-                if (null != endereco) {
+                } else if (mto.getStatus().equalsIgnoreCase("membro")) {
+                    Pessoa pessoa = pessoaEjb.getByCpf(mto.getCpf());
+                    pessoa.setCelular(mto.getCelular());
+                    pessoa.setComplemento(mto.getComplemento());
+                    pessoa.setCpf(mto.getCpf());
+                    pessoa.setDatanascimento(mto.getDatanascimento());
+                    pessoa.setDoadorsangue(Boolean.parseBoolean(mto.getDoadorsangue()));
+                    pessoa.setDocinternacional(mto.getDocinternacional());
+                    pessoa.setEmail(mto.getEmail());
+                    pessoa.setEstadocivil(mto.getEstadocivil());
+                    pessoa.setIdentidade(mto.getIdentidade());
+                    pessoa.setNome(mto.getNome());
+                    pessoa.setNumerorua(mto.getNumerorua());
+                    pessoa.setObservacoes(mto.getObservacoes());
+                    pessoa.setPne(Boolean.parseBoolean(mto.getPne()));
+                    pessoa.setRgdataexpedicao(mto.getRgdataexpedicao());
+                    pessoa.setRgorgaoexpedidor(mto.getRgorgaoexpedidor());
+                    pessoa.setSexo(mto.getSexo());
+                    pessoa.setTelcomercial(mto.getTelcomercial());
+                    pessoa.setTelefone(mto.getTelefone());
+                    pessoa.setTipopne(mto.getTipopne());
+                    pessoa.setTiposangue(mto.getTiposangue());
+                    pessoaEjb.edit(pessoa);
+                    //dados novo registro de tabela membro
+                    Membro membro = new Membro();
+                    Endereco endereco = enderecoEjb.getEnderecoByCep(mto.getCep());
+                    //endereco do membro
+                    if (null != endereco) {
+                        membro.setCodendereco(endereco);
+                    } else {
+                        Cep cep = cepEjb.loadUnknowAddress(mto.getCep());
+                        endereco = new Endereco();
+                        endereco.setCep(cep.getCep());
+                        endereco.setBairro(cep.getBairro());
+                        endereco.setCidade(cep.getCidade());
+                        endereco.setEstado(cep.getEstado());
+                        endereco.setLogradouro(cep.getLogradouro());
+                        endereco.setPais(cep.getPais());
+                        enderecoEjb.create(endereco);
+                        endereco = enderecoEjb.getEnderecoByCep(mto.getCep());
+                    }
                     membro.setCodendereco(endereco);
-                } else {
-                    Cep cep = cepEjb.loadUnknowAddress(mto.getCep());
-                    endereco = new Endereco();
-                    endereco.setCep(cep.getCep());
-                    endereco.setBairro(cep.getBairro());
-                    endereco.setCidade(cep.getCidade());
-                    endereco.setEstado(cep.getEstado());
-                    endereco.setLogradouro(cep.getLogradouro());
-                    endereco.setPais(cep.getPais());
-                    enderecoEjb.create(endereco);
-                    endereco = enderecoEjb.getEnderecoByCep(mto.getCep());
-                }
-                membro.setCodendereco(endereco);
-                //igreja do membro
-                Igreja igreja = igrejaEjb.getIgrejaByCodPresbiterio(mto.getCodigreja());
-                membro.setCodigreja(igreja);
-                //categoria do membro
-                Categoriamembro catmem = catMembroEjb.getCategoriaMembroById(mto.getCodcategoriamembro());
-                membro.setCodcategoriamembro(catmem);
-                //pessoa membro de igreja
-                membro.setCodpessoa(pessoa);
-                //profissao do membro
-                if (null != mto.getCodprofissao()) {
-                    Profissao profissao = profEjb.getProfissaoById(mto.getCodprofissao());
-                    membro.setCodprofissao(profissao);
+                    //igreja do membro
+                    Igreja igreja = igrejaEjb.getIgrejaByCodPresbiterio(mto.getCodigreja());
+                    membro.setCodigreja(igreja);
+                    //categoria do membro
+                    Categoriamembro catmem = catMembroEjb.getCategoriaMembroById(mto.getCodcategoriamembro());
+                    membro.setCodcategoriamembro(catmem);
+                    //pessoa membro de igreja
+                    membro.setCodpessoa(pessoa);
+                    //profissao do membro
+                    if (null != mto.getCodprofissao()) {
+                        Profissao profissao = profEjb.getProfissaoById(mto.getCodprofissao());
+                        membro.setCodprofissao(profissao);
+                    }
+
+                    //persiste membro com dados de pessoa, endereco, igreja, profissao, categoria
+                    membro.setCodmembro(mto.getCodmembro());
+                    membroEjb.edit(membro);
+                    msg.setMensagem("Membro atualizado com sucesso!");
                 }
 
-                //persiste membro com dados de pessoa, endereco, igreja, profissao, categoria
-                membro.setCodmembro(mto.getCodmembro());
-                membroEjb.edit(membro);
-                msg.setMensagem("Membro atualizado com sucesso!");
+            } catch (Exception e) {
+                msg.setMensagem("Problemas ao cadastrar membro: " + e.getMessage());
+                throw new EventosException(e, PessoaWS.class.getName());
             }
 
-        } catch (Exception e) {
-            msg.setMensagem("Problemas ao cadastrar membro: " + e.getMessage());
-            throw new EventosException(e, PessoaWS.class.getName());
-        }
-        
-        if(msg.getMensagem().length()<=0){
-            msg.setMensagem("NAO FOI POSSIVEL CADASTRAR OU ATUALIZAR DADOS!");
-        }
+            if (msg.getMensagem().length() <= 0) {
+                msg.setMensagem("NAO FOI POSSIVEL CADASTRAR OU ATUALIZAR DADOS!");
+            }
 
-        return msg;
+            return msg;
+        }
     }
 
 }
