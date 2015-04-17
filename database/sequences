@@ -1,0 +1,25 @@
+ALTER TABLE tb_pessoa ALTER COLUMN codpessoa SET DEFAULT nextval('seq_tb_pessoa');
+
+ALTER TABLE tb_profissao ALTER COLUMN codprofissao SET DEFAULT nextval('seq_tb_profissao');
+
+ALTER TABLE tb_categoriamembro ALTER COLUMN codcategoriamembro SET DEFAULT nextval('seq_tb_categoriamembro');
+
+ALTER TABLE tb_funcao ALTER COLUMN codfuncao SET DEFAULT nextval('seq_tb_funcao');
+
+ALTER TABLE tb_membro ALTER COLUMN codmembro SET DEFAULT nextval('seq_tb_membro');
+
+ALTER TABLE tb_endereco ALTER COLUMN codendereco SET DEFAULT nextval('seq_tb_endereco');
+
+ALTER TABLE tb_evento ALTER COLUMN codevento SET DEFAULT nextval('seq_tb_evento');
+
+ALTER TABLE tb_alojamento ALTER COLUMN codalojamento SET DEFAULT nextval('seq_tb_alojamento');
+
+ALTER TABLE tb_equipe ALTER COLUMN codequipe SET DEFAULT nextval('seq_tb_equipe');
+
+ALTER TABLE tb_categoriainscricao ALTER COLUMN codcatinscricao SET DEFAULT nextval('seq_tb_categoriainscricao');
+
+ALTER TABLE tb_igreja ALTER COLUMN codigreja SET DEFAULT nextval('seq_tb_igreja');
+
+ALTER TABLE tb_polo ALTER COLUMN codpolo SET DEFAULT nextval('seq_tb_polo');
+
+ALTER TABLE tb_area ALTER COLUMN codarea SET DEFAULT nextval('seq_tb_area');
